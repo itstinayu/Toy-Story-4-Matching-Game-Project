@@ -1,0 +1,100 @@
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: url("./character/1D.jpg");
+  backdrop-filter: brightness(50%);
+}
+#game {
+  width: 600px;
+  height: 500px;
+  display: flex;
+  padding: 10px;
+  flex-direction: row;
+  align-content: stretch;
+  justify-content: center;
+  /* align-items: center; */
+  flex-wrap: wrap;
+  filter: drop-shadow(0 0 0.25rem white);
+}
+.card {
+  width: 120px;
+  margin: 15px;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+.card-front {
+  width: 120px;
+  height: 120px;
+  background-image: url(./character/IMG_3501.JPG);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  backface-visibility: hidden;
+}
+.card-back {
+  width: 120px;
+  height: 120px;
+  background-image: url(./character/IMG_3516.JPG);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+}
+.card-close {
+  transform: rotateY(180deg);
+}
+.logo {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  animation: jumping 0.8s infinite alternate;
+  transition: 0.5s;
+}
+@keyframes jumping {
+  50% {
+    top: 0;
+  }
+  100% {
+    top: -50px;
+  }
+}
+.pageLoading {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(355, 355, 355, 0.5);
+  transition: opacity 0.5s 0.5s;
+}
+.loading {
+  width: 200px;
+  height: 8px;
+  background-color: #ffee15;
+  margin-top: 30px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.bar {
+  width: 30%;
+  height: inherit;
+  border-radius: 25px 0 0 25px;
+  background: #1a48a0;
+}
+.complete {
+  opacity: 0;
+}
+.complete .logo {
+  transform: scale(0.01) rotate(360deg);
+}

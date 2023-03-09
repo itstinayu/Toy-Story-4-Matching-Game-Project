@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--=============== FAVICON ===============-->
+    <link
+      rel="shortcut icon"
+      href="./favicon_package/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <link rel="stylesheet" href="./style.css" />
+
+    <title>Toy Story 4 Matching Game</title>
+    <meta name="author" content="Tina YU" />
+  </head>
+  <body>
+    <div class="pageLoading">
+      <div class="logo">
+        <img src="./character/logo.png" alt="" width="150px" />
+      </div>
+      <div class="loading">
+        <div class="bar"></div>
+      </div>
+    </div>
+    <div id="game"></div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+      integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      let percent = 0;
+      let sec = 10;
+      let timer = setInterval(function () {
+        $(".bar").css("width", percent + "%");
+        percent += 1;
+        if (percent > 100) {
+          $(".pageLoading").addClass("complete");
+          clearInterval(timer);
+        }
+      }, 30);
+      setTimeout(() => {
+        for (let i = 0; i < 16; i++) {
+          $("#game").append(`
+          <div class="card card-close">
+            <div class="card-front"></div>
+            <div class="card-back"></div>
+          </div>
+        `);
+        }
+        for (let i = 0; i < $(".card").length; i++) {
+          const num = (i % ($(".card").length / 2)) + 1;
+          $(".card")
+            .eq(i)
+            .find(".card-front")
+            .css("background-image", `url(./character/IMG_350${num}.JPG)`);
+          $(".card").eq(i).attr("data-num", num);
+          const target = Math.round(Math.random() * ($(".card").length - 1));
+          $(".card").eq(target).insertAfter($(".card").eq(i));
+        }
+        $("#game").on("click", ".card", function () {
+          if (
+            $(".card:not(.card-close)").length < 2 &&
+            $(this).hasClass("card-close") &&
+            !$(this).hasClass("card-ok")
+          ) {
+            $(this).removeClass("card-close");
+          }
+          if ($(".card:not(.card-close)").length === 2) {
+            if (
+              $(".card:not(.card-close)").eq(0).attr("data-num") ===
+              $(".card:not(.card-close)").eq(1).attr("data-num")
+            ) {
+              $(".card:not(.card-close)").addClass("card-ok");
+              $(".card:not(.card-close)").fadeTo(1000, 0);
+            }
+            setTimeout(() => {
+              $(".card:not(.card-close)").addClass("card-close");
+              if ($(".card-ok").length === $(".card").length) {
+                Swal.fire({
+                  icon: "success",
+                  title: "恭喜",
+                  text: "恭喜過關",
+                });
+              }
+            }, 1000);
+          }
+        });
+      }, 4500);
+    </script>
+  </body>
+</html>
